@@ -21,11 +21,17 @@ public class ClientService {
         return repository.findById(id);
     }
 
-    public ClientEntity save (ClientEntity data){
+
+
+    public ClientEntity save(ClientEntity data) {
         return repository.save(data);
     }
 
-    public void update (ClientEntity data){
+    public void update(ClientEntity data) {
         repository.save(data);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }

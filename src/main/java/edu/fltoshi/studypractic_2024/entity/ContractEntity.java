@@ -21,6 +21,6 @@ public class ContractEntity {
     @JoinColumn(name = "client_id")
     private ClientEntity client;
     @OneToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @JoinColumn(name = "insurance_id")
+    private InsuranceEntity insurance;
 }

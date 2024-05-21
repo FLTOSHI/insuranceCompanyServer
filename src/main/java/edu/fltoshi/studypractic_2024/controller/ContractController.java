@@ -16,16 +16,21 @@ import org.springframework.web.bind.annotation.*;
 public class ContractController {
     private final ContractService service;
 
-    @GetMapping("/all")
+    @GetMapping("/all") // Получить данные по всем договорам
     public ResponseEntity<ListResponse<ContractEntity>> getAll() {
         return ResponseEntity.ok(
                 new ListResponse<ContractEntity>(true, "Список договоров", service.findAll()));
     }
 
-    @GetMapping
+    @GetMapping // Получить данные о договоре по ID
     public ResponseEntity<DataResponse<ContractEntity>> by_id(@RequestParam Long id) {
-        return ResponseEntity.ok(
-                new DataResponse<ContractEntity>(true, "Найден следующий договор", service.findById(id).orElseThrow()));
+            return ResponseEntity.ok(
+                    new DataResponse<ContractEntity>(true, "По запросу с идентификатором " + id + " был найден следующий договор", service.findById(id).orElseThrow()));
+    }
+
+    @GetMapping("/getTimelapse")
+    public ResponseEntity<ListResponse<ContractEntity>> getTimelapses (String timelapse) {
+        return ResponseEntity.ok(new ListResponse<ContractEntity>(true, "Список длительности заключённых договоров: ", service.getTimelapses(timelapse)));
     }
 
     @PostMapping
@@ -39,5 +44,16 @@ public class ContractController {
         service.update(contract);
         return ResponseEntity.ok(
                 new BaseResponse(true, "Договор сохранён"));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse> delete(@PathVariable Long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.ok(
+                    new BaseResponse(true, "Страховой договор и информация о нём удалена из базы данных."));
+        } catch (RuntimeException e) {
+            return ResponseEntity.ok(
+                    new BaseResponse(false, e.getMessage()));
+        }
     }
 }

@@ -21,11 +21,20 @@ public class InsuranceService {
         return repository.findById(id);
     }
 
-    public InsuranceEntity save (InsuranceEntity data){
+    public InsuranceEntity save(InsuranceEntity data) {
         return repository.save(data);
     }
 
-    public void update (InsuranceEntity data){
+    public List<InsuranceEntity> getPricing (Integer cost) {
+        return repository.findAllByCost(cost);
+    }
+
+    public void update(InsuranceEntity data) {
         repository.save(data);
     }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
 }

@@ -21,6 +21,9 @@ public class ContractService {
         return repository.findById(id);
     }
 
+    public List<ContractEntity> getTimelapses(String timelapse) {
+        return repository.findAllByTimelapse(timelapse);}
+
     public ContractEntity save (ContractEntity data){
         return repository.save(data);
     }
@@ -28,4 +31,7 @@ public class ContractService {
     public void update (ContractEntity data){
         repository.save(data);
     }
+
+    public void delete (Long id) {repository.deleteById(id);}
+
 }

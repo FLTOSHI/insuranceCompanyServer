@@ -1,13 +1,19 @@
 package edu.fltoshi.studypractic_2024.controller;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import edu.fltoshi.studypractic_2024.entity.InsuranceEntity;
 import edu.fltoshi.studypractic_2024.response.BaseResponse;
 import edu.fltoshi.studypractic_2024.response.DataResponse;
 import edu.fltoshi.studypractic_2024.response.ListResponse;
 import edu.fltoshi.studypractic_2024.service.InsuranceService;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -28,6 +34,11 @@ public class InsuranceController {
                 new DataResponse<InsuranceEntity>(true, "Найден следующий вид страховки", service.findById(id).orElseThrow()));
     }
 
+    @GetMapping("/getPrice")
+    public ResponseEntity<ListResponse<InsuranceEntity>> getPricing(Integer cost){
+        return ResponseEntity.ok(new ListResponse(true, "Прайс-лист видов страхования: ", service.getPricing(cost)));
+    }
+
     @PostMapping
     public ResponseEntity<DataResponse<InsuranceEntity>> save(@RequestBody InsuranceEntity insurance) {
         return ResponseEntity.ok(
@@ -39,5 +50,20 @@ public class InsuranceController {
         service.update(insurance);
         return ResponseEntity.ok(
                 new BaseResponse(true, "Вид страховки сохранён"));
+    }
+
+    @GetMapping("/getBlank")
+    public ResponseEntity<BaseResponse> getInsuranceBlank (){
+        return ResponseEntity.ok (
+                new BaseResponse(true, "Фамилия: " + "Имя: " + "Отчество: " + "Вид страхования: " + "Срок действия договора: "));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse> delete(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(new BaseResponse(true, "Вид страхования удалён"));
+        } catch (RuntimeException exception) {
+            return ResponseEntity.ok(new BaseResponse(false, exception.getMessage()));
+        }
     }
 }

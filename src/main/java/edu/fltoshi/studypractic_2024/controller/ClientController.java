@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("api/v1/client")
 @AllArgsConstructor
@@ -23,21 +22,38 @@ public class ClientController {
     }
 
     @GetMapping
-    public ResponseEntity<DataResponse<ClientEntity>> by_id(@RequestParam Long id) {
-        return ResponseEntity.ok(
-                new DataResponse<ClientEntity>(true, "Найден следующий клиент", service.findById(id).orElseThrow()));
+    public ResponseEntity<BaseResponse> byId(@RequestParam Long id) {
+        try {
+            return ResponseEntity.ok(
+                    new DataResponse<ClientEntity>(true, "Найден следующий автор", service.findById(id).orElseThrow()));
+        } catch (RuntimeException exception) {
+            return ResponseEntity.ok(
+                    new BaseResponse(false, exception.getMessage()));
+        }
     }
 
     @PostMapping
-    public ResponseEntity<DataResponse<ClientEntity>> save(@RequestBody ClientEntity author) {
-        return ResponseEntity.ok(
-                new DataResponse<ClientEntity>(true, "Клиент сохранён", service.save(author)));
+    public ResponseEntity<DataResponse<ClientEntity>> save(@RequestBody ClientEntity client) {
+        return ResponseEntity.ok(new DataResponse<ClientEntity>(true, "Клиент сохранён.", service.save(client)));
     }
 
     @PutMapping
     public ResponseEntity<BaseResponse> update(@RequestBody ClientEntity client) {
-        service.update(client);
-        return ResponseEntity.ok(
-                new BaseResponse(true, "Клиент сохранён"));
+        try {
+            service.update(client);
+            return ResponseEntity.ok(
+                    new BaseResponse(true, "Клиент сохранён"));
+        } catch (RuntimeException exception) {
+            return ResponseEntity.ok(new BaseResponse(false, exception.getMessage()));
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse> delete(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(new BaseResponse(true, "Клиент удалён"));
+        } catch (RuntimeException exception) {
+            return ResponseEntity.ok(new BaseResponse(false, exception.getMessage()));
+        }
     }
 }

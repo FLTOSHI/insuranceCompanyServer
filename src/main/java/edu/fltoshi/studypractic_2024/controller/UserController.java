@@ -40,4 +40,13 @@ public class UserController {
         return ResponseEntity.ok(
                 new BaseResponse(true, "Пользователь сохранён"));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BaseResponse> delete(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(new BaseResponse(true, "Пользователь удалён"));
+        } catch (RuntimeException exception) {
+            return ResponseEntity.ok(new BaseResponse(false, exception.getMessage()));
+        }
+    }
 }

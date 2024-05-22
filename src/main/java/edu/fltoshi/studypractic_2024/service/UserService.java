@@ -14,7 +14,7 @@ public class UserService {
     private final UserRepository repository;
 
     public List<UserEntity> findAll() {
-        return repository.findAll();
+        return (List<UserEntity>) repository.findAll();
     }
 
     public Optional<UserEntity> findById(Long id) {

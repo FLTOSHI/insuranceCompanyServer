@@ -14,7 +14,7 @@ public class InsuranceService {
     private final InsuranceRepository repository;
 
     public List<InsuranceEntity> findAll() {
-        return repository.findAll();
+        return (List<InsuranceEntity>) repository.findAll();
     }
 
     public Optional<InsuranceEntity> findById(Long id) {
@@ -26,6 +26,10 @@ public class InsuranceService {
     }
 
     public List<InsuranceEntity> getPricing (Integer cost) {
+        return repository.getAllByCost(cost);
+    }
+
+    public List<InsuranceEntity> findAllPrices (Integer cost) {
         return repository.findAllByCost(cost);
     }
 

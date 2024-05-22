@@ -14,7 +14,7 @@ public class ContractService {
     private final ContractRepository repository;
 
     public List<ContractEntity> findAll() {
-        return repository.findAll();
+        return (List<ContractEntity>) repository.findAll();
     }
 
     public Optional<ContractEntity> findById(Long id) {
@@ -22,7 +22,7 @@ public class ContractService {
     }
 
     public List<ContractEntity> getTimelapses(String timelapse) {
-        return repository.findAllByTimelapse(timelapse);}
+        return repository.getAllByTimelapse(timelapse);}
 
     public ContractEntity save (ContractEntity data){
         return repository.save(data);

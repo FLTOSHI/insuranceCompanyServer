@@ -53,4 +53,16 @@ public class UserController {
             return ResponseEntity.ok(new BaseResponse(false, exception.getMessage()));
         }
     }
+
+    @GetMapping("/passname")// Работает
+    public ResponseEntity<BaseResponse> check(@RequestParam String username, @RequestParam String password) {
+        try {
+            return ResponseEntity.ok(
+                    new DataResponse<UserEntity>(true, "Найден следующий пользователь: ",
+                            service.checkUser(username,password).orElseThrow()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.ok(
+                    new BaseResponse(false, e.getMessage()));
+        }
+    }
 }

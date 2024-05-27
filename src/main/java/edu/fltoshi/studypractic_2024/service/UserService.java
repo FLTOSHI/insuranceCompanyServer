@@ -30,4 +30,8 @@ public class UserService {
     }
 
     public void delete (Long id) {repository.deleteById(id);}
+
+    public Optional<UserEntity> checkUser(String username, String password) {
+        return repository.findByUsernameAndPassword(username, password);
+    }
 }

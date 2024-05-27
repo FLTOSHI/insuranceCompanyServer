@@ -58,7 +58,7 @@ public class UserController {
     public ResponseEntity<BaseResponse> check(@RequestParam String username, @RequestParam String password) {
         try {
             return ResponseEntity.ok(
-                    new DataResponse<UserEntity>(true, "Найден следующий пользователь: ",
+                    new DataResponse<UserEntity>(true, "Найден следующий юзверь:",
                             service.checkUser(username,password).orElseThrow()));
         } catch (RuntimeException e) {
             return ResponseEntity.ok(
